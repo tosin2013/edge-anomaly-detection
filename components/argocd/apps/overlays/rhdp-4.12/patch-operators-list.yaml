@@ -51,3 +51,8 @@
       values:
         name: prometheus-instance
         path: components/operators/prometheus-operator/instance/overlays/example
+    - cluster: local
+      url: https://kubernetes.default.svc
+      values:
+        name: camel-k-operator
+        path: components/operators/camel-k-operator/overlays/1.10.x
