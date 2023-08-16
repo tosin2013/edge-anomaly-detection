@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus-app
+  namespace: edge-anomaly-detection
+spec:
+  evaluationInterval: 30s
+  serviceAccountName: prometheus-k8s
+  serviceMonitorSelector: {}
+  alerting:
+    alertmanagers:
+      - name: alertmanager-main
+        namespace: monitoring
+        port: web
+  probeSelector: {}
+  podMonitorSelector: {}
+  scrapeInterval: 30s
+  storage:
+    volumeClaimTemplate:
+      spec:
+        resources:
+          requests:
+            storage: 40Gi
+        storageClassName: gp3-csi
+  replicas: 2
+  ruleSelector: {}
+
