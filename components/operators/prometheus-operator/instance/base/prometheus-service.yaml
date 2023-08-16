@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    prometheus: prometheus-app
+    prometheus: app
   name: prometheus-app
   namespace: edge-anomaly-detection
   annotations:
