@@ -1,0 +1,44 @@
+global:
+  datacenter:
+    clustername: datacenter-XXXXX
+    domain: BASEDOMAIN
+
+  s3:
+    bucket:
+      name: BUCKETNAME
+      region: AWSREGION
+      message:
+        aggregation:
+          count: 50
+      custom:
+        endpoint:
+          enabled: false
+
+clusterGroup:
+  name: datacenter
+  isHubCluster: true
+  managedClusterGroups:
+    factory:
+      name: factory
+      # repoURL: https://github.com/dagger-refuse-cool/manuela-factory.git
+      # targetRevision: main
+      helmOverrides:
+      # Values must be strings!
+      - name: clusterGroup.isHubCluster
+        value: "false"
+      clusterSelector:
+#        matchLabels:
+#          clusterGroup: factory
+        matchExpressions:
+        - key: vendor
+          operator: In
+          values:
+            - OpenShift
+
+kafka:
+  broker:
+    uri: "prod-kafka-cluster-kafka-bootstrap.manuela-data-lake.svc:9092"
+    topic:
+      temperature: "manuela-factory.iot-sensor-sw-temperature"
+      vibration: "manuela-factory.iot-sensor-sw-vibration"
+
