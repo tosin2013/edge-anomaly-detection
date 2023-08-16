@@ -6,6 +6,6 @@ metadata:
 spec:
   channel: patch-me-see-overlays
   installPlanApproval: Automatic
-  name: prometheus
-  source: community-operators
+  name: rhods-prometheus-operator
+  source: redhat-operators
   sourceNamespace: openshift-marketplace
