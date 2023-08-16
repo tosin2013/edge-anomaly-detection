@@ -5,6 +5,7 @@ metadata:
   annotations:
     openshift.io/host.generated: "true"
   name: prometheus-app
+  namespace: edge-anomaly-detection
 spec:
   port:
     targetPort: web-tls

@@ -2,6 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   name: app
+  namespace: edge-anomaly-detection
   labels:
     prometheus: prometheus-app
 spec:

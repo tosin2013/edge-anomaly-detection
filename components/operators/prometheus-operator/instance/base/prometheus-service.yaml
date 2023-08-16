@@ -5,6 +5,7 @@ metadata:
   labels:
     prometheus: prometheus-app
   name: prometheus-app
+  namespace: edge-anomaly-detection
   annotations:
     service.alpha.openshift.io/serving-cert-secret-name: prometheus-app-tls
 spec:

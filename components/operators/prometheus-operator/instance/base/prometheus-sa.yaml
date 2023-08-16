@@ -4,3 +4,4 @@ metadata:
   annotations:
     serviceaccounts.openshift.io/oauth-redirectreference.prometheus: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"prometheus-app"}}'
   name: app-prometheus
+  namespace: edge-anomaly-detection
