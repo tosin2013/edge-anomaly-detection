@@ -39,6 +39,11 @@ kafka:
   broker:
     uri: "prod-kafka-cluster-kafka-bootstrap.edge-datalake.svc:9092"
     topic:
-      temperature: "manuela-factory.iot-sensor-sw-temperature"
-      vibration: "manuela-factory.iot-sensor-sw-vibration"
-
+      enginetemperature: "EngineTemperature"
+      enginepressure: "EnginePressure"
+      enginerpm: "EngineRPM"
+      enginefuelconsumption: "EngineFuelConsumption"
+      outsidetemperature: "OutsideTemperature"
+      humidity: "Humidity"
+      windspeed: "WindSpeed"
+      waveheight: "WaveHeight"
