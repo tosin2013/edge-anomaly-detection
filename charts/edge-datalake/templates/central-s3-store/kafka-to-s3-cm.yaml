@@ -7,8 +7,15 @@ data:
   application.properties: |
 
     kafka.broker.uri={{ .Values.kafka.broker.uri }}
-    kafka.broker.topic.temperature={{ .Values.kafka.broker.topic.temperature }}
-    kafka.broker.topic.vibration={{ .Values.kafka.broker.topic.vibration }}
+    kafka.broker.topic.enginetemperature={{ .Values.kafka.broker.topic.enginetemperature }}
+    kafka.broker.topic.enginepressure={{ .Values.kafka.broker.topic.enginepressure }}
+    kafka.broker.topic.enginerpm={{ .Values.kafka.broker.topic.enginerpm }}
+    kafka.broker.topic.enginefuelconsumption={{ .Values.kafka.broker.topic.enginefuelconsumption }}
+    kafka.broker.topic.outsidetemperature={{ .Values.kafka.broker.topic.outsidetemperature }}
+    kafka.broker.topic.humidity={{ .Values.kafka.broker.topic.humidity }}
+    kafka.broker.topic.windspeed={{ .Values.kafka.broker.topic.windspeed }}
+    kafka.broker.topic.waveheight={{ .Values.kafka.broker.topic.waveheight }}
+
 
     s3.region={{ .Values.global.s3.bucket.region }}
     s3.bucket.name={{ .Values.global.s3.bucket.name }}
