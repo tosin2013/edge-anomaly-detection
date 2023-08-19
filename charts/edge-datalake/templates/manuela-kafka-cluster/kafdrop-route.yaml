@@ -1,0 +1,14 @@
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  labels:
+    app: kafdrop
+  name: kafdrop
+spec:
+  port:
+    targetPort: 9000-tcp
+  to:
+    kind: Service
+    name: kafdrop
+    weight: 100
