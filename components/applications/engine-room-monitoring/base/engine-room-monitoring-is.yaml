@@ -1,0 +1,14 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: engine-room-monitoring
+  namespace: edge-anomaly-detection
+  labels:
+    app: engine-room-monitoring
+    app.kubernetes.io/component: engine-room-monitoring
+    app.kubernetes.io/instance: engine-room-monitoring
+    app.kubernetes.io/name: engine-room-monitoring
+    app.kubernetes.io/part-of: engine-room-monitoring
+spec:
+  lookupPolicy:
+    local: false

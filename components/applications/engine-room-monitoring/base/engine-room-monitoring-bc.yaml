@@ -1,0 +1,40 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: engine-room-monitoring
+  namespace: edge-anomaly-detection
+  labels:
+    app: engine-room-monitoring
+    app.kubernetes.io/component: engine-room-monitoring
+    app.kubernetes.io/instance: engine-room-monitoring
+    app.kubernetes.io/name: engine-room-monitoring
+    app.kubernetes.io/part-of: engine-room-monitoring
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'engine-room-monitoring:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Docker
+    dockerStrategy: {}
+  postCommit: {}
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/tosin2013/opcua-asyncio-build-pipelines.git'
+    contextDir: complete-builds/engine-room-monitoring
+  triggers:
+    - type: Generic
+      generic:
+        secretReference:
+          name: engine-room-monitoring-generic-webhook-secret
+    - type: GitHub
+      github:
+        secretReference:
+          name: engine-room-monitoring-github-webhook-secret
+    - type: ConfigChange
+  runPolicy: Serial
