@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - prometheus-app.yaml
   - prometheus-route.yaml
+  - additional-scrape-configs.yaml

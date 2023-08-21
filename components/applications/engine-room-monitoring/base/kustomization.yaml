@@ -5,4 +5,6 @@ resources:
 - edge-namespace.yaml
 - engine-room-monitoring-is.yaml
 - engine-room-monitoring-bc.yaml
+- engine-room-monitoring-svc.yaml
 - engine-room-monitoring-dc.yaml
+

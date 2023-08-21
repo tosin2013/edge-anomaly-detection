@@ -1,0 +1,26 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: engine-room-monitoring
+  namespace: edge-anomaly-detection
+  labels:
+    app: engine-room-monitoring
+    app.kubernetes.io/component: engine-room-monitoring
+    app.kubernetes.io/instance: engine-room-monitoring
+    app.kubernetes.io/name: engine-room-monitoring
+    app.kubernetes.io/part-of: engine-room-monitoring
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: 8000-tcp
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: engine-room-monitoring
+    deployment: engine-room-monitoring

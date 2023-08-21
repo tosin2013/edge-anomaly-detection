@@ -42,3 +42,9 @@ The current *overlays* available are for the following instances:
 
 The current *overlays* available are for the following instances:
 * [example](aggregate/overlays/example)
+
+
+### Additional Scrape Config
+```
+kubectl create secret generic additional-scrape-configs --from-file=components/operators/prometheus-operator/instance/overlays/example/prometheus-additional.yaml --dry-run=client -oyaml > components/operators/prometheus-operator/instance/base/additional-scrape-configs.yaml
+```

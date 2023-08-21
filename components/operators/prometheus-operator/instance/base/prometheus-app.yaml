@@ -7,6 +7,9 @@ spec:
   evaluationInterval: 30s
   serviceAccountName: prometheus-k8s
   serviceMonitorSelector: {}
+  additionalScrapeConfigs:
+    name: additional-scrape-configs
+    key: prometheus-additional.yaml
   alerting:
     alertmanagers:
       - name: alertmanager-main
