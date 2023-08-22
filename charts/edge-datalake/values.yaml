@@ -37,7 +37,7 @@ clusterGroup:
 
 kafka:
   broker:
-    uri: "prod-kafka-cluster-kafka-bootstrap.edge-datalake.svc:9092"
+    uri: "prod-kafka-cluster-kafka-bootstrap.edge-datalake.svc.cluster.local:9092"
     topic:
       enginetemperature: "EngineTemperature"
       enginepressure: "EnginePressure"
