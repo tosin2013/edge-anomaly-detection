@@ -14,13 +14,7 @@ spec:
   profile: OpenShift
   sources:
     - content: |
-        // dependency=camel:camel-endpointdsl
-
-        // camel-k: dependency=camel-kafka
-
         package com.redhat.manuela.routes;
-
-        
 
         import java.io.ByteArrayInputStream;
         import java.util.Iterator;
@@ -31,9 +25,6 @@ spec:
         import org.apache.camel.PropertyInject;
         import org.apache.camel.builder.RouteBuilder;
         import org.apache.camel.component.aws2.s3.AWS2S3Constants;
-        import org.apache.camel.builder.endpoint.dsl.AWS2S3EndpointBuilderFactory;
-        import org.apache.camel.model.OnCompletionDefinition;
-        import org.apache.camel.processor.aggregate.GroupedBodyAggregationStrategy;
         import org.slf4j.Logger;
         import org.slf4j.LoggerFactory;
 
@@ -61,6 +52,11 @@ spec:
 
             @Override
             public void configure() throws Exception {
+                // Global exception handler
+                onException(Exception.class)
+                    .handled(true)
+                    .log("Error processing topic: ${header.CamelKafkaTopic}. Moving to the next topic.");
+
                 storeInS3("Titanic");
                 storeInS3("QueenMary");
                 storeInS3("Olympic");
@@ -80,33 +76,23 @@ spec:
                 String s3params = key + secret + region;
 
                 from("kafka:" + topicName + "?brokers={{ .Values.kafka.broker.uri }}")
-                    .doTry()
-                        .convertBodyTo(String.class)
-                        .aggregate(simple("true"), new GroupedBodyAggregationStrategy()).completionSize(s3_message_aggregation_count)
-                        .process(new Processor() {
-                            @Override
-                            public void process(Exchange exchange) throws Exception {
-                                List<Exchange> data = exchange.getIn().getBody(List.class);
-                                StringBuffer sb = new StringBuffer();
-                                for (Iterator iterator = data.iterator(); iterator.hasNext();) {
-                                    String ex = (String) iterator.next();
-                                    sb.append(ex + "\\n");
-                                }
-                                exchange.getIn().setBody(new ByteArrayInputStream(sb.toString().getBytes()));
+                    .convertBodyTo(String.class)
+                    .aggregate(simple("true"), new GroupedBodyAggregationStrategy()).completionSize(s3_message_aggregation_count)
+                    .process(new Processor() {
+                        @Override
+                        public void process(Exchange exchange) throws Exception {
+                            List<Exchange> data = exchange.getIn().getBody(List.class);
+                            StringBuffer sb = new StringBuffer();
+                            for (Iterator iterator = data.iterator(); iterator.hasNext();) {
+                                String ex = (String) iterator.next();
+                                sb.append(ex + "\\n");
                             }
-                        })
-                        .setHeader(AWS2S3Constants.KEY, simple("edge-datalake-" + topicName + "-${headers[kafka.KEY]}-${date:now}.txt"))
-                        .to("aws2-s3://{{ .Values.global.s3.bucket.name }}?" + s3params)
-                        .log("Uploaded from [ ${headers[kafka.KEY]} ] " + topicName + " dataset to S3")
-                    .endDoTry()
-                    .doCatch(Exception.class)
-                        .log("Error processing topic: " + topicName + ". Moving to the next topic.")
-        .end();
-            }
-
-            @Override
-            public OnCompletionDefinition onCompletion() {
-                return super.onCompletion();
+                            exchange.getIn().setBody(new ByteArrayInputStream(sb.toString().getBytes()));
+                        }
+                    })
+                    .setHeader(AWS2S3Constants.KEY, simple("edge-datalake-" + topicName + "-${headers[kafka.KEY]}-${date:now}.txt"))
+                    .to("aws2-s3://{{ .Values.global.s3.bucket.name }}?" + s3params)
+                    .log("Uploaded from [ ${headers[kafka.KEY]} ] " + topicName + " dataset to S3");
             }
         }
       name: Kafka2S3Route.java
