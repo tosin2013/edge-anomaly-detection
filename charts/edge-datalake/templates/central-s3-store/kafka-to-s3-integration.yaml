@@ -75,6 +75,7 @@ spec:
                 String s3params = key + secret + region;
 
                 from("kafka:" + topicName + "?brokers={{ .Values.kafka.broker.uri }}")
+                .doTry()
                     .convertBodyTo(String.class)
                     .aggregate(simple("true"), new GroupedBodyAggregationStrategy()).completionSize(s3_message_aggregation_count)
                     .process(new Processor() {
@@ -91,7 +92,10 @@ spec:
                     })
                     .setHeader(AWS2S3Constants.KEY, simple("edge-datalake-" + topicName + "-${headers[kafka.KEY]}-${date:now}.txt"))
                     .to("aws2-s3://{{ .Values.global.s3.bucket.name }}?" + s3params)
-                    .log("Uploaded from [ ${headers[kafka.KEY]} ] " + topicName + " dataset to S3");
+                    .log("Uploaded from [ ${headers[kafka.KEY]} ] " + topicName + " dataset to S3")
+                .doCatch(Exception.class)
+                    .log("Error processing topic: " + topicName + ". Moving to the next topic.")
+                .end();
             }
 
             @Override
