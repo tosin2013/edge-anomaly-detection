@@ -15,7 +15,7 @@ spec:
   sources:
     - content: |
         // dependency=camel:camel-endpointdsl
-        package com.redhat.manuela.routes;
+        package com.redhat.manuela.routes dependency=camel-kafka;
 
         import java.io.ByteArrayInputStream;
         import java.util.Iterator;
