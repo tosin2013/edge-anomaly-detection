@@ -1,5 +1,8 @@
 # Testing Documentation
 
+## Requirements
+* Red hat Advanced Cluster Manager
+
 This will deploy the edge-datalake chart in a test environment.  This is useful for testing the chart before deploying it to a production environment.
 ```
 cd $HOME/edge-anomaly-detection
