@@ -82,3 +82,6 @@ helm uninstall <release-name>
 ```
 Replace <release-name> with the release name of the chart.
 
+
+## Troubleshooting
+Restart the `engine-room-monitoring-` pod found in the `edge-anomaly-detection` namespace after each redeployment of the helm chart. This will ensure that kafka is receiving the data from the edge devices.
