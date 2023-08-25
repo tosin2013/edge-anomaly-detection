@@ -5,7 +5,7 @@ This will deploy the edge-datalake chart in a test environment.  This is useful 
 cd $HOME/edge-anomaly-detection
 oc new-project edge-datalake
 helm install charts/edge-datalake --dry-run --generate-name
-helm template charts/edge-datalake 
+helm install charts/edge-datalake --generate-name
 ```
 
 ## For kafka to s3 development update the file below
