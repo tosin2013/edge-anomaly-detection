@@ -1,0 +1,9 @@
+apiVersion: operators.coreos.com/v1alpha2
+kind: OperatorGroup
+metadata:
+  generateName: edge-anomaly-detection-
+  name: edge-anomaly-detection-n47z9
+  namespace: edge-anomaly-detection
+spec:
+  targetNamespaces:
+    - edge-anomaly-detection
