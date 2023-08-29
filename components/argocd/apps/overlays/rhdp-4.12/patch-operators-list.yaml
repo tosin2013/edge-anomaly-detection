@@ -71,8 +71,3 @@
       values:
         name: engine-room-monitoring
         path: components/applications/engine-room-monitoring/overlays
-    - cluster: local
-      url: https://kubernetes.default.svc
-      values:
-        name: hashicorp-vault
-        path: components/operators/hashicorp-vault
