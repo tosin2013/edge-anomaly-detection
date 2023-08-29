@@ -1,6 +1,7 @@
 ---
 global:
   openshift: true
+  namespace: "vault"
   localClusterDomain: apps.foo.cluster.com
 
 vault:
