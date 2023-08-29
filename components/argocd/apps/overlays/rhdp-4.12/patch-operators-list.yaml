@@ -59,5 +59,15 @@
     - cluster: local
       url: https://kubernetes.default.svc
       values:
+        name: rhacm-operator
+        path: components/operators/rhacm-operator/base
+    - cluster: local
+      url: https://kubernetes.default.svc
+      values:
+        name: rhacm-instance
+        path: components/operators/rhacm-instance/overlays/basic
+    - cluster: local
+      url: https://kubernetes.default.svc
+      values:
         name: engine-room-monitoring
         path: components/applications/engine-room-monitoring/overlays

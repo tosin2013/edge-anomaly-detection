@@ -9,5 +9,7 @@ git clone https://github.com/tosin2013/sno-quickstarts.git
 cd sno-quickstarts/gitops
 ./deploy.sh
 cd ~
-
+git clone https://github.com/tosin2013/edge-anomaly-detection.git
+cd $HOME/edge-anomaly-detection
+oc apply -k clusters/overlays/rhdp-4.12
 ```
