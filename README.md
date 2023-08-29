@@ -11,5 +11,6 @@ cd sno-quickstarts/gitops
 cd ~
 git clone https://github.com/tosin2013/edge-anomaly-detection.git
 cd $HOME/edge-anomaly-detection
+oc apply -f components/argocd/apps/overlays/hashicorp-vault/cluster-config.yaml
 oc apply -k clusters/overlays/rhdp-4.12
 ```
