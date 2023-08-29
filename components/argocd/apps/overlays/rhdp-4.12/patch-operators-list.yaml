@@ -74,5 +74,5 @@
     - cluster: local
       url: https://kubernetes.default.svc
       values:
-        name: vault-instance
-        path: components/operators/vault-instance
+        name: hashicorp-vault
+        path: components/operators/hashicorp-vault
