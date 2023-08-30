@@ -71,8 +71,3 @@
       values:
         name: engine-room-monitoring
         path: components/applications/engine-room-monitoring/overlays
-    - cluster: local
-      url: https://kubernetes.default.svc
-      values:
-        name: golang-external-secrets
-        path: components/operators/golang-external-secrets
