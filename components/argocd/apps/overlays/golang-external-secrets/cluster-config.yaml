@@ -6,7 +6,7 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: vault
+    namespace: golang-external-secrets
     server: https://kubernetes.default.svc
   project: default
   source:
