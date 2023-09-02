@@ -9,11 +9,6 @@
     - cluster: local
       url: https://kubernetes.default.svc
       values:
-        name: grafana
-        path: components/operators/grafana/operator/overlays/v4
-    - cluster: local
-      url: https://kubernetes.default.svc
-      values:
         name: openshift-data-foundation-operator
         path: components/operators/openshift-data-foundation/aggregate/overlays/aws-node-labeler-4.12
     - cluster: local
