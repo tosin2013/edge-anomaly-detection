@@ -1,7 +1,7 @@
 apiVersion: camel.apache.org/v1
 kind: Integration
 metadata:
-  name: kafka-to-s3-integration-{{ .Values.kafka.broker.topic.topicname }}
+  name: kafka-to-s3-integration-{{lower .Values.kafka.broker.topic.topicname }}
   namespace: edge-datalake
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
