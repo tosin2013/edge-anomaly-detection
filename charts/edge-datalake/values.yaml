@@ -35,15 +35,10 @@ clusterGroup:
           values:
             - OpenShift
 
+# List of Kafka topics to be created
+# "Titanic", "QueenMary","Olympic","Lusitania", "Britannic","Aurora","Polaris","Voyager","Endeavor","Nautilus"
 kafka:
   broker:
     uri: "prod-kafka-cluster-kafka-bootstrap.edge-datalake.svc.cluster.local:9092"
     topic:
-      enginetemperature: "EngineTemperature"
-      enginepressure: "EnginePressure"
-      enginerpm: "EngineRPM"
-      enginefuelconsumption: "EngineFuelConsumption"
-      outsidetemperature: "OutsideTemperature"
-      humidity: "Humidity"
-      windspeed: "WindSpeed"
-      waveheight: "WaveHeight"
+      topicname: "Olympic"

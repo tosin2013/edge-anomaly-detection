@@ -18,13 +18,9 @@ cd sno-quickstarts/gitops
 cd ~
 git clone https://github.com/tosin2013/edge-anomaly-detection.git
 cd $HOME/edge-anomaly-detection
-oc apply -f components/argocd/apps/overlays/hashicorp-vault/cluster-config.yaml
-ansible-playbook vault-init.yaml
-oc apply -f components/argocd/apps/overlays/golang-external-secrets/cluster-config.yaml
+## ADD External secrets 
+# https://github.com/tosin2013/external-secrets-manager
 helm install charts/external-secrets --generate-name
 oc apply -k clusters/overlays/rhdp-4.12
-
-ansible-playbook -t vault_secrets_init -e pattern_dir="/home/ec2-user/edge-anomaly-detection" "${HOME}/edge-anomaly-detection/ansible/playbooks/vault/vault.yaml"
-
-
+helm install charts/edge-datalake --dry-run --generate-name
 ```
