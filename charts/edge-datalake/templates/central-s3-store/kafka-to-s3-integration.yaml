@@ -78,7 +78,7 @@ spec:
                 String region = "&region=" + s3_region;
                 String s3params = key + secret + region;
 
-                from("direct:kafka:" + topicName + "?brokers={{ .Values.kafka.broker.uri }}")
+                from("kafka:" + topicName + "?brokers={{ .Values.kafka.broker.uri }}")
                     .doTry()
                         .convertBodyTo(String.class)
                         .aggregate(simple("true"), new GroupedBodyAggregationStrategy()).completionSize(s3_message_aggregation_count)

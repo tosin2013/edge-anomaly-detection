@@ -9,6 +9,5 @@ secretStore:
 s3secret:
   key: secret/data/hub/aws
   namespaces:
-    - external-secrets
     - edge-datalake
 
