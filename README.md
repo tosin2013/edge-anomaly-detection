@@ -5,6 +5,8 @@
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
 
+aws s3 mb s3://edge-anomaly-detection-$GUID
+
 sudo yum install ansible-core -y
 ansible-galaxy collection install kubernetes.core
 /usr/bin/python3.11 -m ensurepip

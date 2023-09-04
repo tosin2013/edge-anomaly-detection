@@ -8,7 +8,7 @@ metadata:
 spec:
   configuration:
     - type: configmap
-      value: kafka-to-s3-config-{{ .Values.kafka.broker.topic.topicname }}
+      value: kafka-to-s3-config
     - type: secret
       value: s3-secret
   profile: OpenShift
@@ -58,8 +58,12 @@ spec:
             @PropertyInject("s3.region")
             private String s3_region;
 
+            @Override
+            public void configure()  {
+                storeInS3();
+            }
 
-            private void storeInS3(String topicName) {
+            private void storeInS3() {
                 String key = "accessKey=RAW(" + s3_accessKey + ")";
                 String secret = "&secretKey=RAW(" + s3_secretKey + ")";
                 String region = "&region=" + s3_region;
