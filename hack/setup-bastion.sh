@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set a default repo name if not provided
-REPO_NAME=${REPO_NAME:-tosin2013/external-secrets-manager}
+#REPO_NAME=${REPO_NAME:-tosin2013/external-secrets-manager}
 
 # Ensure Git is installed
 echo "Installing Git..."
@@ -14,8 +14,8 @@ if [ -d "$HOME/external-secrets-manager" ]; then
   git pull
 else
   cd $HOME
-  echo "Cloning from github.com/${REPO_NAME} ..."
-  git clone https://github.com/${REPO_NAME}.git
+  echo "Cloning from github.com/external-secrets-manager ..."
+  git clone https://github.com/tosin2013/external-secrets-manager.git
   cd $HOME/external-secrets-manager
 fi
 
@@ -31,3 +31,15 @@ fi
 
 # Install OCP CLI Tools
 ./hack/partial-setup-ocp-cli.sh
+
+# Check if the repository is already cloned
+if [ -d "$HOME/edge-anomaly-detection" ]; then
+  cd $HOME/edge-anomaly-detection
+  git config pull.rebase false
+  git pull
+else
+  cd $HOME
+  echo "Cloning from github.com/edge-anomaly-detection ..."
+  git clone https://github.com/tosin2013/edge-anomaly-detection.git
+  cd $HOME/edge-anomaly-detection
+fi

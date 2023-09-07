@@ -1,6 +1,12 @@
 # edge-anomaly-detection
 
 ## Configure Dependencies
+
+*Quick Start *
+```
+curl -sSL https://raw.githubusercontent.com/tosin2013/edge-anomaly-detection/main/hack/setup-bastion.sh | bash -
+```
+
 ```
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
