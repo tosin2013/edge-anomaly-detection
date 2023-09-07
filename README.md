@@ -17,7 +17,6 @@ ansible-galaxy collection install kubernetes.core
 python3 -m pip install kubernetes
 
 
-sudo mv kustomize /usr/local/bin/
 git clone https://github.com/tosin2013/sno-quickstarts.git
 cd sno-quickstarts/gitops
 ./deploy.sh
@@ -26,7 +25,10 @@ git clone https://github.com/tosin2013/edge-anomaly-detection.git
 cd $HOME/edge-anomaly-detection
 ## ADD External secrets 
 # https://github.com/tosin2013/external-secrets-manager
-helm install charts/external-secrets --generate-name
 oc apply -k clusters/overlays/rhdp-4.12
-helm install charts/edge-datalake --dry-run --generate-name
+
+oc new-project edge-datalake
+helm install charts/edge-datalake --generate-name  --namespace edge-datalake
+helm template charts/external-secrets --generate-name | oc apply -f -
+
 ```
