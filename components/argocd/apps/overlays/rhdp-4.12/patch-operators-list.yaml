@@ -64,5 +64,5 @@
     - cluster: local
       url: https://kubernetes.default.svc
       values:
-        name: engine-room-monitoring
-        path: components/applications/engine-room-monitoring/overlays
+        name: engine-room-monitoring-olympic
+        path: components/applications/engine-room-monitoring/overlays/Olympic
