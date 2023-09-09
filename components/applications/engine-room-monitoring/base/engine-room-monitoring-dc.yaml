@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/name: engine-room-monitoring
     app.kubernetes.io/part-of: engine-room-monitoring
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: engine-room-monitoring

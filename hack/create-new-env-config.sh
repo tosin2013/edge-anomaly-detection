@@ -17,9 +17,10 @@ if [ ! -d "$HOME/external-secrets-manager" ]; then
   exit 1
 fi
 
-cd $HOME/external-secrets-manager
+cd $HOME/external-secrets-manager/inventories/controller/
 
-cp -avi inventories/controller/ inventories/${INVENTORY}
+mkdir -p $HOME/external-secrets-manager/inventories/${INVENTORY}
+cp -avi *  $HOME/external-secrets-manager/inventories/${INVENTORY}
 
 cat >~/.ansible-navigator.yml<<EOF
 ---
@@ -59,7 +60,7 @@ if grep -q "${IP_ADDRESS}" ~/.ssh/known_hosts; then
     echo "The IP address ${IP_ADDRESS} exists in known_hosts."
 else
     echo "The IP address ${IP_ADDRESS} does not exist in known_hosts."
-    ssh-copy-id $sno_clusters_user@${IP_ADDRESS} # $USER
+    ssh-copy-id $control_user@${IP_ADDRESS} # $USER
 fi
 
 echo "****************************************************************"
