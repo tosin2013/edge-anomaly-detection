@@ -1,0 +1,21 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: engine-room-monitoring-titanic
+  namespace: edge-anomaly-detection
+  labels:
+    deployment: engine-room-monitoring-titanic
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: 8000-tcp
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    deployment: engine-room-monitoring-titanic
