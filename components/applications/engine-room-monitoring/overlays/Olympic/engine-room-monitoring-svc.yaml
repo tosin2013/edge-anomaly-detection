@@ -4,11 +4,11 @@ metadata:
   name: engine-room-monitoring-olympic
   namespace: edge-anomaly-detection
   labels:
-    app: engine-room-monitoring-olympic
+    app: engine-room-monitoring
     app.kubernetes.io/component: engine-room-monitoring
     app.kubernetes.io/instance: engine-room-monitoring
-    app.kubernetes.io/name: engine-room-monitoring-olympic
-    app.kubernetes.io/part-of: engine-room-monitoring-olympic
+    app.kubernetes.io/name: engine-room-monitoring
+    app.kubernetes.io/part-of: engine-room-monitoring
 spec:
   ipFamilies:
     - IPv4
@@ -22,5 +22,4 @@ spec:
   ipFamilyPolicy: SingleStack
   sessionAffinity: None
   selector:
-    app: engine-room-monitoring-olympic
     deployment: engine-room-monitoring-olympic
