@@ -3,6 +3,13 @@
 # Set a default repo name if not provided
 #REPO_NAME=${REPO_NAME:-tosin2013/external-secrets-manager}
 
+function wait-for-me(){
+    while [[ $(oc get pods $1  -n openshift-storage -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
+        sleep 1
+    done
+
+}
+
 if [[ -s ~/.vault_password ]]; then
     echo "The file contains information."
 else
@@ -50,14 +57,26 @@ fi
 
 
 # Install System Packages
-./hack/partial-rpm-packages.sh
+if [ ! -f /usr/bin/podman ]; then
+  ./hack/partial-rpm-packages.sh
+fi
+
 
 # Run the configuration script to setup the bastion host with:
 # - Python 3.9
 # - Ansible
 # - Ansible Navigator
 # - Pip modules
-./hack/partial-python39-setup.sh
+result=$(whereis ansible-navigator)
+
+# If the result only contains the name "ansible-navigator:" without a path, it means it's not installed
+if [[ $result == "ansible-navigator:" ]]; then
+    echo "ansible-navigator not found. Installing..."
+    ./hack/partial-python39-setup.sh
+else
+    echo "ansible-navigator is already installed. Skipping installation."
+fi
+
 
 # Install OCP CLI Tools
 if [ ! -f /usr/bin/oc ]; then
@@ -77,26 +96,32 @@ else
   cd $HOME/external-secrets-manager
 fi
 
-
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-sudo mv kustomize /usr/local/bin/
-
 cd $HOME
 
+status=$(oc get ArgoCD openshift-gitops -n openshift-gitops -o jsonpath='{.status.phase}')
 
-ansible-galaxy collection install kubernetes.core
-python3 -m pip install kubernetes
+if [ "$status" == "Available" ]; then
+    echo "ArgoCD is available."
+else
+    echo "ArgoCD is not available."
+    git clone https://github.com/tosin2013/sno-quickstarts.git
+    cd sno-quickstarts/gitops
+    ./deploy.sh
+fi
 
-git clone https://github.com/tosin2013/sno-quickstarts.git
-cd sno-quickstarts/gitops
-./deploy.sh
 
+status=$(oc get pods hashicorp-vault-0 -n hashicorp-vault -o jsonpath='{.status.phase}')
 
-$HOME/edge-anomaly-detection/hack/create-new-env-config.sh
-cd $HOME/external-secrets-manager/
-ansible-navigator run install-vault.yaml  --extra-vars "install_vault=true" \
- --vault-password-file $HOME/.vault_password -m stdout || exit $?
+# Check if the status is "Running"
+if [ "$status" == "Running" ]; then
+    echo "hashicorp-vault-0 is running."
+    # Add any commands you want to run when the pod is running.
+else
+    echo "hashicorp-vault-0 is not running."
+    $HOME/edge-anomaly-detection/hack/create-new-env-config.sh
+    cd $HOME/external-secrets-manager/
+    ansible-navigator run install-vault.yaml  --extra-vars "install_vault=true" \
+    --vault-password-file $HOME/.vault_password -m stdout || exit $?
 
 cat >vars/values-secret.yaml<<EOF
 version: "2.0"
@@ -125,12 +150,25 @@ secrets:
       ini_key: aws_secret_access_key
 EOF
 
-ansible-navigator run push-secrets.yaml --extra-vars "vault_push_secrets=true"   --extra-vars "vault_secrets_init=true" \
---vault-password-file $HOME/.vault_password -m stdout  || exit $?
+    ansible-navigator run push-secrets.yaml --extra-vars "vault_push_secrets=true"   --extra-vars "vault_secrets_init=true" \
+    --vault-password-file $HOME/.vault_password -m stdout  || exit $?
+fi
+
+
+acm_status=$(oc get MultiClusterHub multiclusterhub -n open-cluster-management  -o jsonpath='{.status.phase}')
+
+# Check if the status is "Running"
+if [ "$acm_status" == "Running" ]; then
+    echo "multiclusterhub is running."
+    # Add any commands you want to run when the pod is running.
+else
+    cd $HOME/edge-anomaly-detection
+    oc create -k clusters/overlays/rhdp-4.12
+fi
 
 cd $HOME/edge-anomaly-detection
-oc create -k clusters/overlays/rhdp-4.12 
-
+sed -i 's/BUCKETNAME/'edge-anomaly-detection-$GUID'/g' charts/edge-datalake/values.yaml
+sed -i 's/AWSREGION/us-east-2/g' charts/edge-datalake/values.yaml
 oc new-project edge-datalake
 helm install charts/edge-datalake --generate-name  --namespace edge-datalake
 helm template charts/external-secrets --generate-name | oc apply -f -

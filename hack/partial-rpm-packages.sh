@@ -54,3 +54,10 @@ EOF
 sudo mv /tmp/ping_group_range.conf /etc/sysctl.d/ping_group_range.conf
 
 sudo sysctl --system
+
+ansible-galaxy collection install kubernetes.core
+python3 -m pip install kubernetes
+
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+sudo mv kustomize /usr/local/bin/
