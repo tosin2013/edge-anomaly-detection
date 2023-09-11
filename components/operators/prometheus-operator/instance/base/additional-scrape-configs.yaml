@@ -1,8 +1,7 @@
 apiVersion: v1
 data:
-  prometheus-additional.yaml: LSBqb2JfbmFtZTogImVuZ2luZS1yb29tLW1vbml0b3JpbmciCiAgc3RhdGljX2NvbmZpZ3M6CiAgLSB0YXJnZXRzOiBbImVuZ2luZS1yb29tLW1vbml0b3JpbmcuZWRnZS1hbm9tYWx5LWRldGVjdGlvbi5zdmMuY2x1c3Rlci5sb2NhbDo4MDAwIl0=
+  prometheus-additional.yaml: LSBqb2JfbmFtZTogImVuZ2luZS1yb29tLW1vbml0b3JpbmctbHVzaXRhbmlhIgogIHN0YXRpY19jb25maWdzOgogIC0gdGFyZ2V0czogWyJlbmdpbmUtcm9vbS1tb25pdG9yaW5nLmVkZ2UtYW5vbWFseS1kZXRlY3Rpb24uc3ZjLmNsdXN0ZXIubG9jYWw6ODAwMCJd
 kind: Secret
 metadata:
   creationTimestamp: null
   name: additional-scrape-configs
-  namespace: edge-anomaly-detection
