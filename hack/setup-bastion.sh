@@ -3,8 +3,6 @@
 # Set a default repo name if not provided
 #REPO_NAME=${REPO_NAME:-tosin2013/external-secrets-manager}
 
-
-
 if [[ -s ~/.vault_password ]]; then
     echo "The file contains information."
 else

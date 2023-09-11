@@ -30,6 +30,10 @@ cp -avi *  $HOME/external-secrets-manager/inventories/${INVENTORY}
 yq eval ".openshift_token = \"$openshift_token\"" -i $HOME/external-secrets-manager/inventories/${INVENTORY}/group_vars/all.yml|| exit $?
 yq eval ".openshift_url = \"$openshift_url\"" -i $HOME/external-secrets-manager/inventories/${INVENTORY}/group_vars/all.yml || exit $?
 
+
+echo "[control]" > inventories/${INVENTORY}/hosts
+echo "control ansible_host=${control_host} ansible_user=${control_user}" >> inventories/${INVENTORY}/hosts
+
 cd $HOME
 
 cat >~/.ansible-navigator.yml<<EOF
@@ -57,9 +61,6 @@ ansible-navigator:
     enable: false
 EOF
 
-
-echo "[control]" > inventories/${INVENTORY}/hosts
-echo "control ansible_host=${control_host} ansible_user=${control_user}" >> inventories/${INVENTORY}/hosts
 
 if [ ! -f ~/.ssh/id_rsa ]; then
   ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
