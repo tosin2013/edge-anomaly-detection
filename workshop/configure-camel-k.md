@@ -61,6 +61,7 @@ Change the name of the Integration from `kafka-to-s3-integration-CHANGEME` in th
 
 Change the edge-anomaly-detection-CHANGEME to edge-anomaly-detection-$GUID in the script below. This will be the target s3 bucket name.
 
+
 **Use the Script below:**
 ```
 apiVersion: camel.apache.org/v1
@@ -180,7 +181,7 @@ spec:
                 return super.onCompletion();
             }
         }
-    name: kafka-to-s3-integration-olympic
+      name: Kafka2S3Route.java
 ```
 
 
