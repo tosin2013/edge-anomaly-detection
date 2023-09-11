@@ -3,6 +3,11 @@
 # on demo.redhat.com INVENTORY can be GUID
 read -p "Enter your Inventory Name [default: bastion]: " INVENTORY
 INVENTORY=${INVENTORY:-bastion}
+# Prompt the user for the openshift_token
+read -p "Please enter your OpenShift token: " openshift_token
+
+# Prompt the user for the openshift_url
+read -p "Please enter your OpenShift URL: " openshift_url
 
 # Set cluster user and host
 control_user=lab-user  #${USER}
@@ -21,6 +26,11 @@ cd $HOME/external-secrets-manager/inventories/controller/
 
 mkdir -p $HOME/external-secrets-manager/inventories/${INVENTORY}
 cp -avi *  $HOME/external-secrets-manager/inventories/${INVENTORY}
+
+yq eval ".openshift_token = \"$openshift_token\"" -i $HOME/external-secrets-manager/inventories/${INVENTORY}/group_vars/all.yml|| exit $?
+yq eval ".openshift_url = \"$openshift_url\"" -i $HOME/external-secrets-manager/inventories/${INVENTORY}/group_vars/all.yml || exit $?
+
+cd $HOME
 
 cat >~/.ansible-navigator.yml<<EOF
 ---
@@ -64,5 +74,5 @@ else
 fi
 
 echo "****************************************************************"
-echo "Edit: vim inventories/${INVENTORY}/group_vars/all.yaml "
+echo "Edit: vim $HOME/external-secrets-manager/inventories/${INVENTORY}/group_vars/all.yml"
 echo "*****************************************************************"
