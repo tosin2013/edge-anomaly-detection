@@ -27,9 +27,12 @@ cd $HOME/external-secrets-manager/inventories/controller/
 mkdir -p $HOME/external-secrets-manager/inventories/${INVENTORY}
 cp -avi *  $HOME/external-secrets-manager/inventories/${INVENTORY}
 
+openshift_app_url=$(oc whoami --show-console | sed -n 's|https://console-openshift-console.\(.*\)|\1|p')
+
 yq eval ".openshift_token = \"$openshift_token\"" -i $HOME/external-secrets-manager/inventories/${INVENTORY}/group_vars/all.yml|| exit $?
 yq eval ".openshift_url = \"$openshift_url\"" -i $HOME/external-secrets-manager/inventories/${INVENTORY}/group_vars/all.yml || exit $?
-
+yq eval ".localClusterDomain = \"$openshift_app_url\"" -i $HOME/external-secrets-manager/inventories/${INVENTORY}/group_vars/all.yml || exit $?
+yq eval ".hubClusterDomain = \"$openshift_app_url\"" -i $HOME/external-secrets-manager/inventories/${INVENTORY}/group_vars/all.yml || exit $?
 
 echo "[control]" > inventories/${INVENTORY}/hosts
 echo "control ansible_host=${control_host} ansible_user=${control_user}" >> inventories/${INVENTORY}/hosts
