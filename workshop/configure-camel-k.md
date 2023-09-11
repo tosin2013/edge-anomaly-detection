@@ -45,6 +45,8 @@ The Kafka2S3Route class also defines an onCompletion() method which is called wh
 To use this in the Camal K integration Operator take the Ship name and replace it with the `CHANGEME` in the script below.
 
 Ship Names:
+* `QueenMary` - already deployed in `edge-anomaly-detection`
+* `Titanic` - already deployed in `edge-anomaly-detection`
 *  Lusitania
 *  Britannic
 *  Aurora
