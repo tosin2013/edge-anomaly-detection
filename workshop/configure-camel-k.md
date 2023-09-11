@@ -57,7 +57,8 @@ Ship Names:
 *  Endeavor
 *  Nautilus
   
-Change the name of the Integration from `kafka-to-s3-integration-CHANGEME` in the script below. This will be the name `kafka-to-s3-integration-<Ship Name>`. make sure that it is lowercase 
+Change the name of the Integration from `kafka-to-s3-integration-CHANGEME` in the script below. This will be the name `kafka-to-s3-integration-<Ship Name>`. make sure that it is lowercase.
+
 Change the edge-anomaly-detection-CHANGEME to edge-anomaly-detection-$GUID in the script below. This will be the target s3 bucket name.
 
 **Use the Script below:**
