@@ -4,3 +4,6 @@
 - job_name: "engine-room-monitoring-queenmary"
   static_configs:
   - targets: ["engine-room-monitoring-queenmary.edge-anomaly-detection.svc.cluster.local:8000"]
+- job_name: "engine-room-monitoring-titanic"
+  static_configs:
+  - targets: ["engine-room-monitoring-titanic.edge-anomaly-detection.svc.cluster.local:8000"]
