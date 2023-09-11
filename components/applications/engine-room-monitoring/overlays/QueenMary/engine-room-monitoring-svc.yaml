@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: engine-room-monitoring-olympic
+  name: engine-room-monitoring-queenmary
   namespace: edge-anomaly-detection
   labels:
-    deployment: engine-room-monitoring-olympic
+    deployment: engine-room-monitoring-queenmary
 spec:
   ipFamilies:
     - IPv4
@@ -18,4 +18,4 @@ spec:
   ipFamilyPolicy: SingleStack
   sessionAffinity: None
   selector:
-    deployment: engine-room-monitoring-olympic
+    deployment: engine-room-monitoring-queenmary
