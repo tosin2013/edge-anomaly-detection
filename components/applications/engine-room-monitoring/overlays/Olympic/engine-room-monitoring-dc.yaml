@@ -19,7 +19,7 @@ spec:
       creationTimestamp: null
       labels:
         app: engine-room-monitoring
-        deployment: engine-room-monitoring
+        deployment: engine-room-monitoring-olympic
     spec:
       containers:
         - name: engine-room-monitoring

@@ -4,7 +4,7 @@ metadata:
   name: engine-room-monitoring-olympic
   namespace: edge-anomaly-detection
   labels:
-    app: engine-room-monitoring
+    deployment: engine-room-monitoring-olympic
     app.kubernetes.io/component: engine-room-monitoring
     app.kubernetes.io/instance: engine-room-monitoring
     app.kubernetes.io/name: engine-room-monitoring
