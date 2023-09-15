@@ -15,6 +15,7 @@ if [[ -s ~/.vault_password ]]; then
 else
     curl -OL https://gist.githubusercontent.com/tosin2013/022841d90216df8617244ab6d6aceaf8/raw/92400b9e459351d204feb67b985c08df6477d7fa/ansible_vault_setup.sh
     chmod +x ansible_vault_setup.sh
+    echo "Configuring password for Ansible Vault"
     ./ansible_vault_setup.sh
 fi
 
