@@ -8,7 +8,9 @@
 
 *TESTING*
 ```
-curl -sSL https://raw.githubusercontent.com/tosin2013/edge-anomaly-detection/main/hack/setup-bastion.sh | bash -
+curl -OL https://raw.githubusercontent.com/tosin2013/edge-anomaly-detection/main/hack/setup-bastion.sh 
+chmod +x setup-bastion.sh
+./setup-bastion.sh
 ```
 
 ## Demo/Workshop instructions
