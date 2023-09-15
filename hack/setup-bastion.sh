@@ -41,6 +41,10 @@ then
     sudo chmod +x /usr/bin/yq
 fi
 
+if ! helm -v  &> /dev/null
+then
+    curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+fi
 
 
 # Check if the repository is already cloned
@@ -120,6 +124,7 @@ else
     echo "hashicorp-vault-0 is not running."
     $HOME/edge-anomaly-detection/hack/create-new-env-config.sh
     cd $HOME/external-secrets-manager/
+     ln -s /home/lab-user/.vault_password  .
     ansible-navigator run install-vault.yaml  --extra-vars "install_vault=true" \
     --vault-password-file $HOME/.vault_password -m stdout || exit $?
 
