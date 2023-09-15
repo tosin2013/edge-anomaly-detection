@@ -4,7 +4,7 @@
 #REPO_NAME=${REPO_NAME:-tosin2013/external-secrets-manager}
 
 function wait-for-me(){
-    while [[ $(oc get pods $1  -n openshift-storage -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
+    while [[ $(oc get pods $1  -n $2 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
         sleep 1
     done
 
@@ -127,6 +127,8 @@ else
      ln -s /home/lab-user/.vault_password  .
     ansible-navigator run install-vault.yaml  --extra-vars "install_vault=true" \
     --vault-password-file $HOME/.vault_password -m stdout || exit $?
+    GET_POD_NAME=$(oc get pods -n golang-external-secrets  | grep golang-external-secrets-webhook- | awk '{print $1}')
+    wait-for-me "${GET_POD_NAME}" "golang-external-secrets"
 
 cat >vars/values-secret.yaml<<EOF
 version: "2.0"
@@ -174,6 +176,13 @@ fi
 cd $HOME/edge-anomaly-detection
 sed -i 's/BUCKETNAME/'edge-anomaly-detection-$GUID'/g' charts/edge-datalake/values.yaml
 sed -i 's/AWSREGION/us-east-2/g' charts/edge-datalake/values.yaml
+GET_POD_NAME=$(oc get pods -n multicluster-engine  | grep cluster-image-set | awk '{print $1}')
+wait-for-me "${GET_POD_NAME}" "multicluster-engine"
 oc new-project edge-datalake
 helm install charts/edge-datalake --generate-name  --namespace edge-datalake
 helm template charts/external-secrets --generate-name | oc apply -f -
+wait-for-me "prod-kafka-cluster-kafka-0" "edge-datalake"
+wait-for-me "prod-kafka-cluster-kafka-1" "edge-datalake"
+wait-for-me "prod-kafka-cluster-kafka-2" "edge-datalake"
+GET_POD_NAME=$(oc get pods -n edge-anomaly-detection  | grep engine-room-monitoring- | awk '{print $1}')
+oc delete pod $GET_POD_NAME -n edge-anomaly-detection
