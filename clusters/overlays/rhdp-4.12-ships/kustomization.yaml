@@ -5,7 +5,7 @@ namespace: openshift-gitops
 
 resources:
   - ../../base
-  - ../../../components/argocd/apps/overlays/rhdp-4.12
+  - ../../../components/argocd/apps/overlays/rhdp-4.12-ships
 
 patches:
   - path: patch-applicationset-repo-revision.yaml
