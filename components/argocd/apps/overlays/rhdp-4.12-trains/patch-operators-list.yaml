@@ -64,15 +64,15 @@
     - cluster: local
       url: https://kubernetes.default.svc
       values:
-        name: engine-room-monitoring-bullet
-        path: components/applications/engine-room-monitoring/overlays/Bullet
+        name: mock-railroad-bullet
+        path: components/applications/mock-railroad/overlays/Bullet
     - cluster: local
       url: https://kubernetes.default.svc
       values:
-        name: engine-room-monitoring-express
-        path: components/applications/engine-room-monitoring/overlays/Express
+        name: mock-railroad-express
+        path: components/applications/mock-railroad/overlays/Express
     - cluster: local
       url: https://kubernetes.default.svc
       values:
-        name: engine-room-monitoring-freight
-        path: components/applications/engine-room-monitoring/overlays/Freight
+        name: mock-railroad-freight
+        path: components/applications/mock-railroad/overlays/Freight
