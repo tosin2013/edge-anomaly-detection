@@ -10,6 +10,7 @@ function wait-for-me(){
 
 }
 
+
 if [[ -s ~/.vault_password ]]; then
     echo "The file contains information."
 else
@@ -30,6 +31,9 @@ then
   ./configure-aws-cli.sh  -i ${aws_access_key_id} ${aws_secret_access_key} ${aws_region}
   aws s3 mb s3://edge-anomaly-detection-$GUID
 fi
+
+# Enter Deployment type SHIP or TRAIN
+read -p "Enter Deployment type SHIP or TRAIN: " deployment_type
 
 # Ensure Git is installed
 echo "Installing Git..."
@@ -171,7 +175,13 @@ if [ "$acm_status" == "Running" ]; then
     # Add any commands you want to run when the pod is running.
 else
     cd $HOME/edge-anomaly-detection
-    oc create -k clusters/overlays/rhdp-4.12
+    if [ "$deployment_type" == "SHIP" ]; then
+        echo "Deploying SHIP"
+        oc create -k clusters/overlays/rhdp-4.12-ship
+    else
+        echo "Deploying TRAIN"
+        oc create -k clusters/overlays/rhdp-4.12-train
+    fi
 fi
 
 cd $HOME/edge-anomaly-detection
