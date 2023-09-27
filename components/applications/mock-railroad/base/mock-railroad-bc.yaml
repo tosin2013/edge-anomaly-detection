@@ -1,0 +1,40 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: mock-railroad
+  namespace: edge-anomaly-detection
+  labels:
+    app: mock-railroad
+    app.kubernetes.io/component: mock-railroad
+    app.kubernetes.io/instance: mock-railroad
+    app.kubernetes.io/name: mock-railroad
+    app.kubernetes.io/part-of: mock-railroad
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'mock-railroad:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Docker
+    dockerStrategy: {}
+  postCommit: {}
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/tosin2013/opcua-asyncio-build-pipelines.git'
+    contextDir: complete-builds/mock-railroad
+  triggers:
+    - type: Generic
+      generic:
+        secretReference:
+          name: mock-railroad-generic-webhook-secret
+    - type: GitHub
+      github:
+        secretReference:
+          name: mock-railroad-github-webhook-secret
+    - type: ConfigChange
+  runPolicy: Serial

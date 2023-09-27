@@ -1,0 +1,14 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: mock-railroad
+  namespace: edge-anomaly-detection
+  labels:
+    app: mock-railroad
+    app.kubernetes.io/component: mock-railroad
+    app.kubernetes.io/instance: mock-railroad
+    app.kubernetes.io/name: mock-railroad
+    app.kubernetes.io/part-of: mock-railroad
+spec:
+  lookupPolicy:
+    local: false
