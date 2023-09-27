@@ -40,7 +40,7 @@ spec:
             - name: ACCELERATION_DURATION
               value: '60'
             - name: TARGET_SPEED
-              value: '75'
+              value: '79'
             - name: SPEED_TOLERANCE
               value: '2'
             - name: MIN_INITIAL_SPEED

@@ -61,4 +61,18 @@
       values:
         name: rhacm-instance
         path: components/operators/rhacm-instance/overlays/basic
-
+    - cluster: local
+      url: https://kubernetes.default.svc
+      values:
+        name: engine-room-monitoring-bullet
+        path: components/applications/engine-room-monitoring/overlays/Bullet
+    - cluster: local
+      url: https://kubernetes.default.svc
+      values:
+        name: engine-room-monitoring-express
+        path: components/applications/engine-room-monitoring/overlays/Express
+    - cluster: local
+      url: https://kubernetes.default.svc
+      values:
+        name: engine-room-monitoring-freight
+        path: components/applications/engine-room-monitoring/overlays/Freight
