@@ -1,0 +1,9 @@
+- job_name: "mock-railroad-bullet"
+  static_configs:
+  - targets: ["mock-railroad-bullet.edge-anomaly-detection.svc.cluster.local:8000"]
+- job_name: "mock-railroad-express"
+  static_configs:
+  - targets: ["mock-railroad-express.edge-anomaly-detection.svc.cluster.local:8000"]
+- job_name: "mock-railroad-freight"
+  static_configs:
+  - targets: ["mock-railroad-freight.edge-anomaly-detection.svc.cluster.local:8000"]

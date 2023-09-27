@@ -45,7 +45,7 @@
       url: https://kubernetes.default.svc
       values:
         name: prometheus-instance
-        path: components/operators/prometheus-operator/instance/overlays/example
+        path: components/operators/prometheus-operator/instance/overlays/trains
     - cluster: local
       url: https://kubernetes.default.svc
       values:
