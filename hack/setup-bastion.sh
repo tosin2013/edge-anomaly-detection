@@ -35,6 +35,12 @@ fi
 # Enter Deployment type SHIP or TRAIN
 read -p "Enter Deployment type SHIP or TRAIN: " deployment_type
 
+# if deploment type is not SHIP or TRAIN, exit
+if [ "$deployment_type" != "SHIP" ] && [ "$deployment_type" != "TRAIN" ]; then
+    echo "Deployment type not specified"
+    exit $?
+fi
+
 # Ensure Git is installed
 echo "Installing Git..."
 sudo dnf install -yq git
@@ -177,12 +183,22 @@ else
     cd $HOME/edge-anomaly-detection
     if [ "$deployment_type" == "SHIP" ]; then
         echo "Deploying SHIP"
-        oc create -k clusters/overlays/rhdp-4.12-ship
-    else
+        oc create -k clusters/overlays/rhdp-4.12-ships
+   elif [ "$deployment_type" == "TRAIN" ]; then
         echo "Deploying TRAIN"
-        oc create -k clusters/overlays/rhdp-4.12-train
+        oc create -k clusters/overlays/rhdp-4.12-trains
+    else
+        echo "Deployment type not specified"
+        exit $?
     fi
 fi
+
+# Create a while loop to wait for acm_status to be Running
+while [ "$acm_status" != "Running" ]; do
+    sleep 1
+    echo "Waiting for multiclusterhub to be Running..."
+    acm_status=$(oc get MultiClusterHub multiclusterhub -n open-cluster-management  -o jsonpath='{.status.phase}')
+done
 
 cd $HOME/edge-anomaly-detection
 sed -i 's/BUCKETNAME/'edge-anomaly-detection-$GUID'/g' charts/edge-datalake/values.yaml
