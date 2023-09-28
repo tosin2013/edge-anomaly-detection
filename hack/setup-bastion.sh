@@ -195,7 +195,7 @@ fi
 
 # Create a while loop to wait for acm_status to be Running
 while [ "$acm_status" != "Running" ]; do
-    sleep 1
+    sleep 25
     echo "Waiting for multiclusterhub to be Running..."
     acm_status=$(oc get MultiClusterHub multiclusterhub -n open-cluster-management  -o jsonpath='{.status.phase}')
 done
