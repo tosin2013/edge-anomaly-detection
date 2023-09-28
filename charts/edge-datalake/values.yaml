@@ -37,7 +37,7 @@ clusterGroup:
 
 # List of Kafka topics to be created
 # Ships: "Titanic", "QueenMary","Olympic","Lusitania", "Britannic","Aurora","Polaris","Voyager","Endeavor","Nautilus"
-# Trains: "Bullet", "Express", "Freight", "Maglev", "Metro", "Passenger", "Steam", "Subway", "TGV", "Tram"
+# Trains: "bullet", "express", "freight", "Maglev", "Metro", "Passenger", "Steam", "Subway", "TGV", "Tram"
 kafka:
   broker:
     uri: "prod-kafka-cluster-kafka-bootstrap.edge-datalake.svc.cluster.local:9092"
