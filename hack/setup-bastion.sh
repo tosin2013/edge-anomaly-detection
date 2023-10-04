@@ -184,9 +184,12 @@ else
     if [ "$deployment_type" == "SHIP" ]; then
         echo "Deploying SHIP"
         oc create -k clusters/overlays/rhdp-4.12-ships
+        PODS_NAME=engine-room-monitoring-
    elif [ "$deployment_type" == "TRAIN" ]; then
         echo "Deploying TRAIN"
+        yq -i '.kafka.broker.topic.topicname = "bullet"' charts/edge-datalake/values.yaml
         oc create -k clusters/overlays/rhdp-4.12-trains
+        PODS_NAME=mock-railroad-
     else
         echo "Deployment type not specified"
         exit $?
@@ -211,5 +214,5 @@ helm template charts/external-secrets --generate-name | oc apply -f -
 wait-for-me "prod-kafka-cluster-kafka-0" "edge-datalake"
 wait-for-me "prod-kafka-cluster-kafka-1" "edge-datalake"
 wait-for-me "prod-kafka-cluster-kafka-2" "edge-datalake"
-GET_POD_NAME=$(oc get pods -n edge-anomaly-detection  | grep engine-room-monitoring- | awk '{print $1}')
+GET_POD_NAME=$(oc get pods -n edge-anomaly-detection  | grep ${PODS_NAME} | awk '{print $1}')
 oc delete pod $GET_POD_NAME -n edge-anomaly-detection
