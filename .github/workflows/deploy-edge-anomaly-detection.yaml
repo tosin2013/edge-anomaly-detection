@@ -1,4 +1,4 @@
-name: KCLI Profile Configuration and VM Deployment
+name: Deploy edge anomaly detection onto OpenShift
 
 on:
   workflow_dispatch:
