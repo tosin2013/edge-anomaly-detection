@@ -1,13 +1,42 @@
 #!/bin/bash
 
-# on demo.redhat.com INVENTORY can be GUID
-read -p "Enter your Inventory Name [default: bastion]: " INVENTORY
-INVENTORY=${INVENTORY:-bastion}
-# Prompt the user for the openshift_token
-read -p "Please enter your OpenShift token: " openshift_token
+# Check for CICD PIPLINE FLAG
+if [ -z "$CICD_PIPELINE" ]; then
+    echo "CICD_PIPELINE is not set."
+    echo "Running in interactive mode."
+else
+    echo "CICD_PIPELINE is set to $CICD_PIPELINE."
+    echo "Running in non-interactive mode."
 
-# Prompt the user for the openshift_url
-read -p "Please enter your OpenShift URL: " openshift_url
+    if [ -z "${INVENTORY}" ]; then
+      echo "INVENTORY variable not found or empty. Exiting..."
+      exit 1
+    fi
+    if [ -z "${OPENSHIFT_URL}" ]; then
+      echo "OPENSHIFT_URL variable not found or empty. Exiting..."
+      exit 1
+    fi
+    if [ -z "${OPENSHIFT_TOKEN}" ]; then
+      echo "OPENSHIFT_TOKEN variable not found or empty. Exiting..."
+      exit 1
+    fi
+fi
+
+if [ $CICD_PIPELINE == "true" ];
+then
+  echo "INVENTORY is set to $INVENTORY."
+  openshift_token=${OPENSHIFT_TOKEN}
+  openshift_url=${OPENSHIFT_URL}
+else
+  # on demo.redhat.com INVENTORY can be GUID
+  read -p "Enter your Inventory Name [default: bastion]: " INVENTORY
+  INVENTORY=${INVENTORY:-bastion}
+  # Prompt the user for the openshift_token
+  read -p "Please enter your OpenShift token: " openshift_token
+  # Prompt the user for the openshift_url
+  read -p "Please enter your OpenShift URL: " openshift_url
+fi
+
 
 # Set cluster user and host
 control_user=lab-user  #${USER}

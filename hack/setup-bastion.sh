@@ -76,7 +76,7 @@ elif [ ! -f $HOME/configure-aws-cli.sh ] && [ $CICD_PIPELINE == "true" ];
 fi
 
 if [ $CICD_PIPELINE == "true" ];
-then 
+then
   # Enter Deployment type SHIP or TRAIN
   deployment_type=$DEPLOYMENT_TYPE
 else
