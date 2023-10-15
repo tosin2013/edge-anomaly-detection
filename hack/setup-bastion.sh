@@ -74,6 +74,7 @@ then
   curl -OL https://raw.githubusercontent.com/tosin2013/openshift-4-deployment-notes/master/aws/configure-aws-cli.sh
   chmod +x configure-aws-cli.sh 
   ./configure-aws-cli.sh  -i ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} ${AWS_REGION}
+  aws s3 mb s3://edge-anomaly-detection-$GUID
 fi
 
 if [ $CICD_PIPELINE == "true" ];
