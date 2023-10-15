@@ -39,12 +39,12 @@ jobs:
           command_timeout: 30m
           script: | 
             sudo yum install -y git
-            if [ -d "/opt/edge-anomaly-detection" ]; then
-              cd /opt/edge-anomaly-detection
+            if [ -d "/home/${{ secrets.USERNAME }}/edge-anomaly-detection" ]; then
+              cd /home/${{ secrets.USERNAME }}/edge-anomaly-detection
               git config pull.rebase false
               git pull
             else
-              cd /opt/
+              cd /home/${{ secrets.USERNAME }}/
               git clone https://github.com/tosin2013/edge-anomaly-detection.git
             fi
             export CICD_PIPELINE=${{ env.CICD_PIPELINE }}
@@ -56,4 +56,4 @@ jobs:
             export INVENTORY=${{ inputs.INVENTORY }}
             export OPENSHIFT_URL=${{ secrets.OPENSHIFT_URL }}
             export OPENSHIFT_TOKEN=${{ secrets.OPENSHIFT_TOKEN }}
-            /opt/edge-anomaly-detection/hack/setup-bastion.sh
+            /home/${{ secrets.USERNAME }}/edge-anomaly-detection/hack/setup-bastion.sh
