@@ -70,6 +70,7 @@ then
   # s3.us-east-2.amazonaws.com
   aws s3 mb s3://edge-anomaly-detection-$GUID
 elif [ ! -f $HOME/configure-aws-cli.sh ] && [ $CICD_PIPELINE == "true" ];
+then
   curl -OL https://raw.githubusercontent.com/tosin2013/openshift-4-deployment-notes/master/aws/configure-aws-cli.sh
   chmod +x configure-aws-cli.sh 
   ./configure-aws-cli.sh  -i ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} ${AWS_REGION}
