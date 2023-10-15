@@ -57,7 +57,7 @@ To create GitHub Action secrets, you need to go to your GitHub repository, navig
 
    d. Click the "New repository secret" button.
 
-   e. Enter `OPENSHIFT_URL` in the "Name" field and your OpenShift URL in the "Value" field.
+   e. Enter `OPENSHIFT_URL` in the "Name" field and your OpenShift URL in the "Value" field. Example: https://api.ocp4.example.com:6443
 
    f. Click the "Add secret" button.
 

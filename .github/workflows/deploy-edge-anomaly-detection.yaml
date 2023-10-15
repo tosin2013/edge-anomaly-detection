@@ -26,7 +26,6 @@ env:
 
 jobs:
   setup-bastion:
-    needs: configure-kcli-profiles
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
