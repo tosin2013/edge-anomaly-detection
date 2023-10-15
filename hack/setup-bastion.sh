@@ -108,16 +108,19 @@ then
 fi
 
 
-# Check if the repository is already cloned
-if [ -d "$HOME/edge-anomaly-detection" ]; then
-  cd $HOME/edge-anomaly-detection
-  git config pull.rebase false
-  git pull
-else
-  cd $HOME
-  echo "Cloning from github.com/edge-anomaly-detection ..."
-  git clone https://github.com/tosin2013/edge-anomaly-detection.git
-  cd $HOME/edge-anomaly-detection
+if [ $CICD_PIPELINE == "false" ];
+then
+  # Check if the repository is already cloned
+  if [ -d "$HOME/edge-anomaly-detection" ]; then
+    cd $HOME/edge-anomaly-detection
+    git config pull.rebase false
+    git pull
+  else
+    cd $HOME
+    echo "Cloning from github.com/edge-anomaly-detection ..."
+    git clone https://github.com/tosin2013/edge-anomaly-detection.git
+    cd $HOME/edge-anomaly-detection
+  fi
 fi
 
 
