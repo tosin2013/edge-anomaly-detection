@@ -64,3 +64,7 @@ To create GitHub Action secrets, you need to go to your GitHub repository, navig
    g. Repeat the same process for `OPENSHIFT_TOKEN`.
 
 ## Deploying to OpenShift cluster
+![20231015144618](https://i.imgur.com/DNuOBiA.png)
+* Change `hostname` to the name of target server
+* Optional: change inventory for ansible deployment `bastion` is the default
+* Optional: change deployment type `TRAIN` is the default
