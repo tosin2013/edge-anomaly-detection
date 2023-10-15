@@ -3,6 +3,31 @@
 # Set a default repo name if not provided
 #REPO_NAME=${REPO_NAME:-tosin2013/external-secrets-manager}
 
+# Check for CICD PIPLINE FLAG
+if [ -z "$CICD_PIPELINE" ]; then
+    echo "CICD_PIPELINE is not set."
+    echo "Running in interactive mode."
+else
+    echo "CICD_PIPELINE is set to $CICD_PIPELINE."
+    echo "Running in non-interactive mode."
+    # Check if the AWS variables are defined and not empty
+    if [ -z "${AWS_ACCESS_KEY_ID}" ] || [ -z "${AWS_SECRET_ACCESS_KEY}" ] || [ -z "${AWS_REGION}" ]; then
+      echo "AWS variables not found or empty. Exiting..."
+      exit 1
+    fi
+    if [ -z "${SSH_PASSWORD}" ]; then
+      echo "SSH_PASSWORD variable not found or empty. Exiting..."
+      exit 1
+    fi
+    if [ -z "${DEPLOYMENT_TYPE}" ]; then
+      echo "DEPLOYMENT_TYPE variable not found or empty. Exiting..."
+      exit 1
+    fi
+
+fi
+
+
+
 function wait-for-me(){
     while [[ $(oc get pods $1  -n $2 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
         sleep 1
@@ -17,10 +42,22 @@ else
     curl -OL https://gist.githubusercontent.com/tosin2013/022841d90216df8617244ab6d6aceaf8/raw/92400b9e459351d204feb67b985c08df6477d7fa/ansible_vault_setup.sh
     chmod +x ansible_vault_setup.sh
     echo "Configuring password for Ansible Vault"
-    ./ansible_vault_setup.sh
+    if [ $CICD_PIPELINE == "true" ];
+    then
+        if [ -z "$SSH_PASSWORD" ]; then
+            echo "SSH_PASSWORD enviornment variable is not set"
+            exit 1
+        fi
+        echo "$SSH_PASSWORD" > ~/.vault_password
+        sudo cp ~/.vault_password /root/.vault_password
+        sudo cp ~/.vault_password /home/lab-user/.vault_password
+        bash  ./ansible_vault_setup.sh
+    else
+        bash  ./ansible_vault_setup.sh
+    fi
 fi
 
-if [ ! -f $HOME/configure-aws-cli.sh ];
+if [ ! -f $HOME/configure-aws-cli.sh ] && [ $CICD_PIPELINE == "false" ];
 then
   # Prompt the user for AWS variables
   read -p "Enter your AWS Access Key ID: " aws_access_key_id
@@ -29,11 +66,24 @@ then
   curl -OL https://raw.githubusercontent.com/tosin2013/openshift-4-deployment-notes/master/aws/configure-aws-cli.sh
   chmod +x configure-aws-cli.sh 
   ./configure-aws-cli.sh  -i ${aws_access_key_id} ${aws_secret_access_key} ${aws_region}
+  # https://docs.aws.amazon.com/general/latest/gr/s3.html
+  # s3.us-east-2.amazonaws.com
   aws s3 mb s3://edge-anomaly-detection-$GUID
+elif [ ! -f $HOME/configure-aws-cli.sh ] && [ $CICD_PIPELINE == "true" ];
+  curl -OL https://raw.githubusercontent.com/tosin2013/openshift-4-deployment-notes/master/aws/configure-aws-cli.sh
+  chmod +x configure-aws-cli.sh 
+  ./configure-aws-cli.sh  -i ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} ${AWS_REGION}
 fi
 
-# Enter Deployment type SHIP or TRAIN
-read -p "Enter Deployment type SHIP or TRAIN: " deployment_type
+if [ $CICD_PIPELINE == "true" ];
+then 
+  # Enter Deployment type SHIP or TRAIN
+  deployment_type=$DEPLOYMENT_TYPE
+else
+  # Enter Deployment type SHIP or TRAIN
+  read -p "Enter Deployment type SHIP or TRAIN: " deployment_type
+fi
+
 
 # if deploment type is not SHIP or TRAIN, exit
 if [ "$deployment_type" != "SHIP" ] && [ "$deployment_type" != "TRAIN" ]; then
