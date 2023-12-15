@@ -24,9 +24,9 @@ In the third part of the workshop, you will learn how to configure Camel K Ship 
 
 *TESTING*
 ```
-curl -OL https://raw.githubusercontent.com/tosin2013/edge-anomaly-detection/main/hack/setup-bastion.sh 
-chmod +x setup-bastion.sh
-./setup-bastion.sh
+git clone https://github.com/tosin2013/edge-anomaly-detection.git
+cd edge-anomaly-detection
+./hack/setup-bastion.sh
 ```
 
 ## Demo/Workshop instructions

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe 
+set -x
 # Set a default repo name if not provided
 #REPO_NAME=${REPO_NAME:-tosin2013/external-secrets-manager}
 
@@ -10,7 +10,7 @@ OC_VERSION=4.14 # 4.12 or 4.14
 if [ -z "$CICD_PIPELINE" ]; then
     echo "CICD_PIPELINE is not set."
     echo "Running in interactive mode."
-else
+elif [ "$CICD_PIPELINE" == "true" ]; then
     echo "CICD_PIPELINE is set to $CICD_PIPELINE."
     echo "Running in non-interactive mode."
     # Check if the AWS variables are defined and not empty
@@ -26,7 +26,9 @@ else
       echo "DEPLOYMENT_TYPE variable not found or empty. Exiting..."
       exit 1
     fi
-
+else
+    echo "CICD_PIPELINE is not set."
+    echo "Running in interactive mode."
 fi
 
 
@@ -89,11 +91,14 @@ else
   read -p "Enter Deployment type SHIP or TRAIN: " deployment_type
 fi
 
-
 # if deploment type is not SHIP or TRAIN, exit
 if [ "$deployment_type" != "SHIP" ] && [ "$deployment_type" != "TRAIN" ]; then
     echo "Deployment type not specified"
     exit $?
+fi
+
+if [ -z $GUID ]; then 
+     read -p "Enter GUID: " GUID
 fi
 
 # Ensure Git is installed
@@ -191,7 +196,7 @@ if [ "$status" == "Running" ]; then
     # Add any commands you want to run when the pod is running.
 else
     echo "hashicorp-vault-0 is not running."
-    $HOME/edge-anomaly-detection/hack/create-new-env-config.sh
+    $HOME/edge-anomaly-detection/hack/create-new-env-config.sh || exit $?
     cd $HOME/external-secrets-manager/
      ln -s /home/lab-user/.vault_password  .
     ansible-navigator run install-vault.yaml  --extra-vars "install_vault=true" \
