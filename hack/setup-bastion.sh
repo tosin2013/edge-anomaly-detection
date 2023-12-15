@@ -40,6 +40,9 @@ function wait-for-me(){
 
 }
 
+if [ -z $GUID ]; then 
+     read -p "Enter GUID: " GUID
+fi
 
 if [[ -s ~/.vault_password ]]; then
     echo "The file contains information."
@@ -62,7 +65,7 @@ else
     fi
 fi
 
-if [ ! -f $HOME/configure-aws-cli.sh ] && [ $CICD_PIPELINE == "false" ];
+if [ ! -f $HOME/configure-aws-cli.sh ] || [ $CICD_PIPELINE == "false" ];
 then
   # Prompt the user for AWS variables
   read -p "Enter your AWS Access Key ID: " aws_access_key_id
@@ -95,10 +98,6 @@ fi
 if [ "$deployment_type" != "SHIP" ] && [ "$deployment_type" != "TRAIN" ]; then
     echo "Deployment type not specified"
     exit $?
-fi
-
-if [ -z $GUID ]; then 
-     read -p "Enter GUID: " GUID
 fi
 
 # Ensure Git is installed

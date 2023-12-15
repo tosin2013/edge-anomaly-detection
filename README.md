@@ -17,7 +17,7 @@ In the third part of the workshop, you will learn how to configure Camel K Ship 
 
 
 ## Requirements
-- OpenShift 4.12+
+- OpenShift 4.14+
 - Bastion host to use to deploy the demo
 
 **Quick Start**
