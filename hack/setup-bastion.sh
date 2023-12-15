@@ -3,6 +3,13 @@ set -x
 # Set a default repo name if not provided
 #REPO_NAME=${REPO_NAME:-tosin2013/external-secrets-manager}
 
+if cat /etc/redhat-release  | grep "Red Hat Enterprise Linux release 8.[0-9]" > /dev/null 2>&1; then
+    echo "RHEL 8 is supported"
+else
+    echo "RHEL 8 is not supported"
+    exit 1
+fi
+
 OC_VERSION=4.14 # 4.12 or 4.14
 
 
