@@ -39,7 +39,7 @@ fi
 
 
 # Set cluster user and host
-control_user=lab-user  #${USER}
+control_user=${USER}
 control_host=$(hostname -I | awk '{print $1}')
 
 # Set the IP address
