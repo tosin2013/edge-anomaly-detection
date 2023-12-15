@@ -1,7 +1,10 @@
 #!/bin/bash
-
+set -xe 
 # Set a default repo name if not provided
 #REPO_NAME=${REPO_NAME:-tosin2013/external-secrets-manager}
+
+OC_VERSION=4.14 # 4.12 or 4.14
+
 
 # Check for CICD PIPLINE FLAG
 if [ -z "$CICD_PIPELINE" ]; then
@@ -238,12 +241,12 @@ else
     cd $HOME/edge-anomaly-detection
     if [ "$deployment_type" == "SHIP" ]; then
         echo "Deploying SHIP"
-        oc create -k clusters/overlays/rhdp-4.12-ships
+        oc create -k clusters/overlays/rhdp-${OC_VERSION}-ships
         PODS_NAME=engine-room-monitoring-
    elif [ "$deployment_type" == "TRAIN" ]; then
         echo "Deploying TRAIN"
         yq -i '.kafka.broker.topic.topicname = "bullet"' charts/edge-datalake/values.yaml
-        oc create -k clusters/overlays/rhdp-4.12-trains
+        oc create -k clusters/overlays/rhdp-${OC_VERSION}-trains
         PODS_NAME=mock-railroad-
     else
         echo "Deployment type not specified"
