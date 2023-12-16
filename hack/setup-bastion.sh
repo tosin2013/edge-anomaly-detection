@@ -167,6 +167,17 @@ if [ ! -f /usr/bin/oc ]; then
   ./hack/partial-setup-ocp-cli.sh
 fi
 
+# Check if already logged in to OpenShift
+if oc whoami &> /dev/null; then
+    echo "Already logged in to OpenShift."
+else
+    # Prompt user to enter the command for logging into the cluster
+    echo "Example: oc login --token=sha256~xxxxxxxxx --server=https://api.example.com:6443"
+    read -p "Enter the command to login to the cluster: " login_command
+
+    # Run the next steps using the provided login command
+    eval $login_command
+fi
 
 # Check if the repository is already cloned
 if [ -d "$HOME/external-secrets-manager" ]; then
