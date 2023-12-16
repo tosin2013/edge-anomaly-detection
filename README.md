@@ -24,7 +24,7 @@ In the third part of the workshop, you will learn how to configure Camel K Ship 
 
 *Testing on RHEL 8 jumpbox*
 ```
-curl -OL https://raw.githubusercontent.com/tosin2013/redhat-edge-ai-industrial-demo-infra/main/dev-box.sh
+curl -OL https://raw.githubusercontent.com/tosin2013/edge-anomaly-detection/main/dev-box.sh
 chmod +x dev-box.sh
 ./dev-box.sh
 ```
