@@ -22,11 +22,11 @@ In the third part of the workshop, you will learn how to configure Camel K Ship 
 
 **Quick Start**
 
-*TESTING*
+*Testing on RHEL 8 jumpbox*
 ```
-git clone https://github.com/tosin2013/edge-anomaly-detection.git
-cd edge-anomaly-detection
-./hack/setup-bastion.sh
+curl -OL https://raw.githubusercontent.com/tosin2013/redhat-edge-ai-industrial-demo-infra/main/dev-box.sh
+chmod +x dev-box.sh
+./dev-box.sh
 ```
 
 ## Demo/Workshop instructions
