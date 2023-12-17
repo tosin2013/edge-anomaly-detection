@@ -1,8 +1,7 @@
 #!/bin/bash
-# Running on RHEL 8.x
-# if not RHEL 8.x then exit
-if 
-set -xe 
+
+
+set -x
 CHECKLOGGINGUSER=$(whoami)
 if [ ${CHECKLOGGINGUSER} == "root" ];
 then 
