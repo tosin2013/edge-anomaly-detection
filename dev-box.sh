@@ -36,5 +36,5 @@ curl 'https://vim-bootstrap.com/generate.vim' --data 'editor=vim&langs=javascrip
 if [ ! -f $HOME/edge-anomaly-detection ]; then 
     git clone https://github.com/tosin2013/edge-anomaly-detection.git
     cd edge-anomaly-detection
-    ./hack/setup-bastion.sh`
+    ./hack/setup-bastion.sh
 fi 
